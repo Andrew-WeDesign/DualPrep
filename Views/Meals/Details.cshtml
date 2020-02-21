@@ -1,0 +1,105 @@
+﻿@model DualPrep.Models.Meal
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="DP-DtPage">
+    <div class="DP-Details DP-WordWrap">
+        <h2 class="DP-DtName">
+            @Html.DisplayFor(model => model.Name)
+        </h2>
+        <p class="DP-WordWrap">
+            @Html.DisplayFor(model => model.Summary)
+        </p>
+        <h4>
+            Ingredients needed:
+        </h4>
+        <p class="DP-WordWrap">
+            @Html.Raw(Model.Ingredients.Replace(Environment.NewLine, "<br/>"))
+        </p>
+        <h4>
+            Cooking Directions:
+        </h4>
+        <p class="DP-WordWrap">
+            @Html.Raw(Model.Directions.Replace(Environment.NewLine, "<br/>"))
+        </p>
+        <h4>
+            Ready In:
+        </h4>
+        <p class="DP-WordWrap">
+            Prep Time:
+            @Html.DisplayFor(model => model.PrepTime)
+                
+            Cook Time:
+            @Html.DisplayFor(model => model.CookTime)
+        </p>
+        <h4 class="DP-WordWrap">
+            Created By:
+        </h4>
+        <p class="DP-WordWrap">
+            @Html.DisplayFor(model => model.Author)
+        </p>
+
+        <div class="DP-ListWhiteSpace"></div>
+
+        <div>
+            @if (Model.CreatedByUser == User.Identity.Name)
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+            }
+
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+    </div>
+    <div class="DP-DtSide">
+        When features like meal/workout plans, favorites, and my meals/exercises are added they can be found here.
+    </div>
+</div>
+
+
+
+@*<h1>Details</h1>
+
+<div>
+    <h4>Meal</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Summary)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Summary)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ingredients)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ingredients)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Directions)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Directions)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>*@

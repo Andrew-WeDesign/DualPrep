@@ -1,0 +1,92 @@
+﻿
+.DP-Table {
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+table {
+    font-size: 16px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    display: table;
+    border-spacing: 2px;
+    border-color: grey;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+th {
+    padding-top: 11px;
+    padding-bottom: 11px;
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #ddd;
+    /*text-align: left;*/
+    padding: 8px;
+    display: table-cell;
+    vertical-align: inherit;
+    font-weight: bold;
+    text-align: center;
+}
+
+td {
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 8px;
+    display: table-cell;
+    vertical-align: inherit;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    line-height: 1.5;
+    font-size: 20px;
+}
+
+.DP-Table-Contain{
+    overflow-x: auto;
+}
+
+/*@media (min-width: 1200px) {
+    .table {
+        max-width: 1140px;
+    }
+}
+
+@media (min-width: 992px) {
+    .table {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 768px) {
+    .table {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 576px) {
+    .table {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .table {
+        font-size: 16px;
+    }
+}*/

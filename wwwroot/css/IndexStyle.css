@@ -1,0 +1,86 @@
+﻿body {
+}
+
+.DP-HomePage{
+    padding-top: 1em;
+    min-height: 100vh;
+    text-align: center;
+    background: #000000;
+}
+
+.DP-Intro{
+    color: #32cd32;
+}
+
+.DP-HomeMenu {
+    height: 100%;
+    width: 0;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    /* opacity:0.9; */
+    overflow-x: hidden;
+    padding-top: 5em;
+    transition: 0.3s;
+}
+
+.DP-HomeButton {
+    background-color: #32cd32;
+    color: #000000;
+    font-size: 2em;
+    width: 40vh;
+    /*min-width: 30%;*/
+    padding: 1.5em;
+    margin: 5vw;
+    border: none;
+}
+
+.DP-BtnClose {
+    position: absolute;
+    top: -1em;
+    right: 0em;
+    font-size: 3em;
+    margin-left: 4em;
+    padding: 1em 1em 1em 1em;
+    text-decoration: none;
+    color: #ccc;
+    display: block;
+    transition: 0.3s;
+}
+
+    .DP-BtnClose a:hover {
+        color: #fff;
+    }
+
+.DP-HMText {
+    margin: 1em;
+    padding: 1em 1em 1em 1em;
+    text-decoration: none;
+    font-size: 22px;
+    color: #ccc;
+    display: block;
+    transition: 0.3s;
+}
+
+    .DP-HMText a:hover {
+        color: #fff;
+    }
+
+.DP-HomeButton {
+    background-color: #32cd32;
+    color: #000000;
+    font-size: 2em;
+    width: 40vh;
+    /*min-width: 30%;*/
+    padding: 1.5em;
+    margin: 5vw;
+    border: none;
+}
+
+@media(min-width: 650px) {
+    .DP-HMText{
+        font-size: 30px;
+    }
+}

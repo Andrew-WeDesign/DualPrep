@@ -1,0 +1,103 @@
+﻿@model DualPrep.Models.Exercise
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="DP-DtPage">
+    <div class="DP-Details">
+        <h2 class="DP-DtName DP-WordWrap">
+            @Html.DisplayFor(model => model.Name)
+        </h2>
+        <p class="DP-WordWrap">
+            @Html.DisplayFor(model => model.Summary)
+        </p>
+        <h4>
+            Equipment needed:
+        </h4>
+        <p class="DP-WordWrap">
+            @Html.DisplayFor(model => model.Equipment)
+        </p>
+        <h4>
+            How-To and tips:
+        </h4>
+        <p class="DP-WordWrap">
+            @Html.Raw(Model.Directions.Replace(Environment.NewLine, "<br/>"))
+        </p>
+        <h4>
+            Main muscle group:
+        </h4>
+        <p class="DP-WordWrap">
+            @Html.DisplayFor(model => model.Muscle)
+        </p>
+
+        <div class="DP-ListWhiteSpace"></div>
+
+        <div>
+            @if (Model.CreatedByUser == User.Identity.Name)
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+            }
+
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+    </div>
+    <div class="DP-DtSide">
+        When features like meal/workout plans, favorites, and my meals/exercises are added they can be found here.
+    </div>
+</div>
+
+@*<div>
+    @if (Model.CreatedByUser == User.Identity.Name)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    }
+
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+@*<div>
+    <h4>Exercise</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Summary)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Summary)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Equipment)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Equipment)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Directions)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Directions)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Muscle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Muscle)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (Model.CreatedByUser == User.Identity.Name)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    }
+
+    <a asp-action="Index">Back to List</a>
+</div>*@

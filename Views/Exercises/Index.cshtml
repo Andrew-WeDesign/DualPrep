@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DualPrep.Models.Exercise>
+@*@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@inject IAuthorizationService AuthorizationService
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager*@
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="DP-List">
+    <h1>Exercises</h1>
+
+    <p>
+        <a class="DP-CreateBTN" asp-action="Create">Create</a>
+    </p>
+    <br />
+
+    <div>
+
+        @foreach (var item in Model)
+        {
+            <a asp-action="Details" asp-route-id="@item.Id"><p class="DP-ItemName DP-WordWrap">@Html.DisplayFor(modelItem => item.Name)</p></a> @*|*@
+            <p class="DP-WordWrap">
+                @Html.DisplayFor(modelItem => item.Summary)
+            </p>
+            <p class="DP-WordWrap">
+                @Html.DisplayNameFor(model => model.Equipment):
+                @Html.DisplayFor(modelItem => item.Equipment)
+            </p>
+            <p class="DP-WordWrap">
+                @Html.DisplayNameFor(model => model.Muscle):
+                @Html.DisplayFor(modelItem => item.Muscle)
+            </p>
+
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> @*|*@
+
+            @if (item.CreatedByUser == User.Identity.Name)
+            {
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+            } @*|*@
+
+            @if (User.IsInRole("Administrator"))
+            {
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            }
+
+            <div class="DP-ListWhiteSpace"> </div>
+            <hr />
+        }
+
+    </div>
+</div>

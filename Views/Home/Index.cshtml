@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="DP-HomePage">
+
+    <div class="DP-HomeOverlay"></div>
+
+    <div class="DP-HomeStart">
+        <h2 class="DP-Intro">Dual Prep</h2>
+        <h2 class="DP-Intro">Make Progress, Make Yourself</h2>
+        <h2 class="DP-Intro">Welcome to the beta launch!!!</h2>
+        <button class="DP-HomeButton" type="button" onclick="OpenFoodMenu()">Food</button>
+        <button class="DP-HomeButton" type="button" onclick="OpenWorkoutMenu()">Workout</button>
+    </div>
+</div>
+
+<div id="DP-FoodMenuPop" class="DP-HomeMenu">
+    <a href="#" class="DP-BtnClose" onclick="CloseFoodMenu()">&times;</a>
+    <a class="DP-HMText" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    <a class="DP-HMText" asp-area="" asp-controller="Meals" asp-action="Index">Meal List</a>
+    <p class="DP-HMText">More options like favorites and entire meal plans coming soon.</p>
+    <p class="DP-HMText">Check back often for new features and updates.</p>
+</div>
+
+<div id="DP-WorkoutMenuPop" class="DP-HomeMenu">
+    <a href="#" class="DP-BtnClose" onclick="CloseWorkoutMenu()">&times;</a>
+    <a class="DP-HMText" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    <a class="DP-HMText" asp-area="" asp-controller="Exercises" asp-action="Index">Exercise List</a>
+    <p class="DP-HMText">More options like favorites and entire workout plans coming soon.</p>
+    <p class="DP-HMText">Check back often for new features and updates.</p>
+</div>
+
+<script>
+    function OpenFoodMenu() {
+        document.getElementById('DP-FoodMenuPop').style.width = '100%';
+    }
+</script>
+
+<script>
+    function CloseFoodMenu() {
+        document.getElementById('DP-FoodMenuPop').style.width = '0';
+        document.getElementById('main').style.marginLeft = '0';
+    }
+</script>
+
+<script>
+    function OpenWorkoutMenu() {
+        document.getElementById('DP-WorkoutMenuPop').style.width = '100%';
+    }
+</script>
+
+<script>
+    function CloseWorkoutMenu() {
+        document.getElementById('DP-WorkoutMenuPop').style.width = '0';
+        document.getElementById('main').style.marginLeft = '0';
+    }
+</script>

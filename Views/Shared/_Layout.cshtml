@@ -1,0 +1,104 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - DualPrep</title>
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    @*<link rel="stylesheet" href="~/css/site.css" />*@
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+    <nav class="navbar">
+        <span class="open-left">
+            <a class="navx" href="#" onclick="OpenLeftMenu()" >
+                <img src="~/images/HomeIcon.png" >
+                @*<svg width="30" height="30">
+                    <path d="M0,5 30,5" stroke="#fff" stroke-width="5" />
+                    <path d="M0,14 30,14" stroke="#fff" stroke-width="5" />
+                    <path d="M0,23 30,23" stroke="#fff" stroke-width="5" />
+                </svg>*@
+            </a>
+        </span>
+
+        <span class="open-right">
+            <a href="#" onclick="OpenRightMenu()" class="navx">
+                <img src="~/images/AccountIcon.png" >
+                @*<svg width="30" height="30">
+                    <path d="M0,5 30,5" stroke="#fff" stroke-width="5" />
+                    <path d="M0,14 30,14" stroke="#fff" stroke-width="5" />
+                    <path d="M0,23 30,23" stroke="#fff" stroke-width="5" />
+                </svg>*@
+            </a>
+        </span>
+
+        <div id="left-menu" class="left-nav">
+            <a href="#" class="btn-close navx" onclick="CloseLeftMenu()">&times;</a>
+            <a class="DP-HMText" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            <a class="DP-HMText" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <a class="DP-HMText" asp-area="" asp-controller="Meals" asp-action="Index">Meal List</a>
+            <a class="DP-HMText" asp-area="" asp-controller="Exercises" asp-action="Index">Exercise List</a>
+        </div>
+
+        <div id="right-menu" class="right-nav">
+            <a href="#" class="btn-close navx" onclick="CloseRightMenu()">&times;</a>
+            <a class="DP-HMText" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @User.Identity.Name!</a>
+            <a class="DP-HMText" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <a class="DP-HMText" asp-area="" asp-controller="Meals" asp-action="Index">Meal List</a>
+            <a class="DP-HMText" asp-area="" asp-controller="Exercises" asp-action="Index">Exercise List</a>
+        </div>
+
+
+    </nav>
+
+
+    <div class="container">
+        @RenderBody()
+    </div>
+
+
+    <footer>
+    </footer>
+
+    <script>
+        function OpenLeftMenu()
+        {
+            document.getElementById('left-menu').style.width = '100%';
+        }
+    </script>
+
+    <script>
+        function CloseLeftMenu()
+        {
+            document.getElementById('left-menu').style.width = '0';
+            document.getElementById('main').style.marginLeft = '0';
+        }
+    </script>
+
+    <script>
+        function OpenRightMenu()
+        {
+            document.getElementById('right-menu').style.width = '100%';
+        }
+    </script>
+
+    <script>
+        function CloseRightMenu()
+        {
+            document.getElementById('right-menu').style.width = '0';
+            document.getElementById('main').style.marginLeft = '0';
+        }
+    </script>
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
