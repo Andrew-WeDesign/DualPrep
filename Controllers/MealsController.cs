@@ -25,9 +25,23 @@ namespace DualPrep.Controllers
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Meals
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    return View(await _context.Meals.ToListAsync());
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> Index(string MealSearch)
         {
-            return View(await _context.Meals.ToListAsync());
+            ViewData["GetMealSearch"] = MealSearch;
+
+            var MealQuery = from x in _context.Meals select x;
+
+            if (!string.IsNullOrEmpty(MealSearch))
+            {
+                MealQuery = MealQuery.Where(x => x.Name.Contains(MealSearch) || x.Summary.Contains(MealSearch) || x.Ingredients.Contains(MealSearch));
+            }
+            return View(await MealQuery.AsNoTracking().ToListAsync());
         }
 
         // GET: Meals/Details/5

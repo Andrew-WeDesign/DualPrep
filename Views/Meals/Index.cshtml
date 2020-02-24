@@ -14,6 +14,14 @@
     </p>
     <br />
 
+    <form method="get" asp-action="Index">
+        <p>
+            <input type="search" placeholder="search here." values="@ViewData["GetMealSearch"]" name="MealSearch" />
+            <input type="submit" value="search" />
+            <a asp-action="Index">All Meals</a>
+        </p>
+    </form>
+
     <div>
 
         @foreach (var item in Model)
@@ -24,7 +32,7 @@
             </p>
             <p class="DP-WordWrap">
                 @Html.DisplayNameFor(model => model.Ingredients):
-                <pre>@Html.DisplayFor(modelItem => item.Ingredients)</pre>
+                <pre class="DP-WordWrap">@Html.DisplayFor(modelItem => item.Ingredients)</pre>
             </p>
             <p class="DP-WordWrap">
                 @Html.DisplayNameFor(model => model.PrepTime):
