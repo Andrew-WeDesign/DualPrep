@@ -1,4 +1,6 @@
-﻿@model IEnumerable<DualPrep.Models.Meal>
+﻿@using DualPrep
+
+@model PaginatedList<DualPrep.Models.Meal>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,7 +18,7 @@
 
     <form method="get" asp-action="Index">
         <p>
-            <input type="search" placeholder="search here." values="@ViewData["GetMealSearch"]" name="MealSearch" />
+            <input type="search" placeholder="search here." values="@ViewData["GetMealSearch"]" name="mealSearch" />
             <input type="submit" value="search" />
             <a asp-action="Index">All Meals</a>
         </p>
@@ -26,33 +28,33 @@
 
         @foreach (var item in Model)
         {
-            <a asp-action="Details" asp-route-id="@item.Id"><p class="DP-ItemName DP-WordWrap">@Html.DisplayFor(modelItem => item.Name)</p></a> @*|*@
+            <a asp-action="Details" asp-route-id="@item.Id"><p class="DP-ItemName DP-WordWrap">@Html.DisplayFor(modelItem => item.Name)</p></a>
             <p class="DP-WordWrap">
                 @Html.DisplayFor(modelItem => item.Summary)
             </p>
             <p class="DP-WordWrap">
-                @Html.DisplayNameFor(model => model.Ingredients):
+                @Html.DisplayNameFor(model => item.Ingredients):
                 <pre class="DP-WordWrap">@Html.DisplayFor(modelItem => item.Ingredients)</pre>
             </p>
             <p class="DP-WordWrap">
-                @Html.DisplayNameFor(model => model.PrepTime):
+                @Html.DisplayNameFor(model => item.PrepTime):
                 @Html.DisplayFor(modelItem => item.PrepTime)
             </p>
             <p class="DP-WordWrap">
-                @Html.DisplayNameFor(model => model.CookTime):
+                @Html.DisplayNameFor(model => item.CookTime):
                 @Html.DisplayFor(modelItem => item.CookTime)
             </p>
             <p class="DP-WordWrap">
-                @Html.DisplayNameFor(model => model.Author):
+                @Html.DisplayNameFor(model => item.Author):
                 @Html.DisplayFor(modelItem => item.Author)
             </p>
 
-            <a asp-action="Details" asp-route-id="@item.Id">Details</a> @*|*@
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
 
             @if (item.CreatedByUser == User.Identity.Name)
             {
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-            } @*|*@
+            }
 
             @if (User.IsInRole("Administrator"))
             {
@@ -62,6 +64,24 @@
             <div class="DP-ListWhiteSpace"> </div>
             <hr />
         }
+
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
+
+        <a asp-action="Index"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           asp-route-currentFilter="@ViewData["GetMealSearch"]"
+           class="@prevDisabled">
+            Previous
+        </a>
+        <a asp-action="Index"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-currentFilter="@ViewData["GetMealSearch"]"
+           class="@nextDisabled">
+            Next
+        </a>
 
     </div>
 </div>

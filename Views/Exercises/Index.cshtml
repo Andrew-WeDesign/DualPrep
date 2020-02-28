@@ -1,56 +1,79 @@
-﻿@model IEnumerable<DualPrep.Models.Exercise>
-@*@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Identity
-@inject IAuthorizationService AuthorizationService
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager*@
+﻿@using DualPrep
 
+@model PaginatedList<DualPrep.Models.Exercise>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="DP-List">
-    <h1>Exercises</h1>
+    <div class="DP-List">
+        <h1>Exercises</h1>
 
-    <p>
-        <a class="DP-CreateBTN" asp-action="Create">Create</a>
-    </p>
-    <br />
+        <p>
+            <a class="DP-CreateBTN" asp-action="Create">Create</a>
+        </p>
+        <br />
 
-    <div>
-
-        @foreach (var item in Model)
-        {
-            <a asp-action="Details" asp-route-id="@item.Id"><p class="DP-ItemName DP-WordWrap">@Html.DisplayFor(modelItem => item.Name)</p></a> @*|*@
-            <p class="DP-WordWrap">
-                @Html.DisplayFor(modelItem => item.Summary)
+        <form method="get" asp-action="Index">
+            <p>
+                <input type="search" placeholder="search here." values="@ViewData["GetExerciseSearch"]" name="exerciseSearch" />
+                <input type="submit" value="search" />
+                <a asp-action="Index">All Exercises</a>
             </p>
-            <p class="DP-WordWrap">
-                @Html.DisplayNameFor(model => model.Equipment):
-                @Html.DisplayFor(modelItem => item.Equipment)
-            </p>
-            <p class="DP-WordWrap">
-                @Html.DisplayNameFor(model => model.Muscle):
-                @Html.DisplayFor(modelItem => item.Muscle)
-            </p>
+        </form>
 
-            <a asp-action="Details" asp-route-id="@item.Id">Details</a> @*|*@
 
-            @if (item.CreatedByUser == User.Identity.Name)
+        <div>
+
+            @foreach (var item in Model)
             {
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-            } @*|*@
+                <a asp-action="Details" asp-route-id="@item.Id"><p class="DP-ItemName DP-WordWrap">@Html.DisplayFor(modelItem => item.Name)</p></a>
+                <p class="DP-WordWrap">
+                    @Html.DisplayFor(modelItem => item.Summary)
+                </p>
+                <p class="DP-WordWrap">
+                    @Html.DisplayNameFor(model => item.Equipment):
+                    @Html.DisplayFor(modelItem => item.Equipment)
+                </p>
+                <p class="DP-WordWrap">
+                    @Html.DisplayNameFor(model => item.Muscle):
+                    @Html.DisplayFor(modelItem => item.Muscle)
+                </p>
 
-            @if (User.IsInRole("Administrator"))
-            {
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+
+                @if (item.CreatedByUser == User.Identity.Name)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                }
+
+                @if (User.IsInRole("Administrator"))
+                {
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                }
+
+                <div class="DP-ListWhiteSpace"> </div>
+                <hr />
             }
 
-            <div class="DP-ListWhiteSpace"> </div>
-            <hr />
-        }
+            @{
+                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+            }
 
+            <a asp-action="Index"
+               asp-route-pageNumber="@(Model.PageIndex - 1)"
+               asp-route-currentFilter="@ViewData["GetExerciseSearch"]"
+               class="@prevDisabled">
+                Previous
+            </a>
+            <a asp-action="Index"
+               asp-route-pageNumber="@(Model.PageIndex + 1)"
+               asp-route-currentFilter="@ViewData["GetExerciseSearch"]"
+               class="@nextDisabled">
+                Next
+            </a>
+
+        </div>
     </div>
-</div>

@@ -1,0 +1,16 @@
+﻿@model DualPrep.Models.MealViewModels.FavoriteData
+
+@{
+    ViewData["Title"] = "Favorite Meals";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>
+    My Favorites
+</h1>
+
+@foreach (var item in Model.MealFavorites)
+{
+    @Html.DisplayFor(modelItem => item.Meal.Name)
+}
+

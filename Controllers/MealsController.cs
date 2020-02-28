@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DualPrep.Data;
 using DualPrep.Models;
+using DualPrep.Models.MealViewModels;
 using Microsoft.AspNetCore.Identity;
+using System.Collections;
 
 namespace DualPrep.Controllers
 {
@@ -31,17 +33,28 @@ namespace DualPrep.Controllers
         //}
 
         [HttpGet]
-        public async Task<IActionResult> Index(string MealSearch)
+        public async Task<IActionResult> Index(string mealSearch, string currentFilter, int? pageNumber)
         {
-            ViewData["GetMealSearch"] = MealSearch;
+            if (mealSearch != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                mealSearch = currentFilter;
+            }
+
+            ViewData["GetMealSearch"] = mealSearch;
 
             var MealQuery = from x in _context.Meals select x;
 
-            if (!string.IsNullOrEmpty(MealSearch))
+            if (!string.IsNullOrEmpty(mealSearch))
             {
-                MealQuery = MealQuery.Where(x => x.Name.Contains(MealSearch) || x.Summary.Contains(MealSearch) || x.Ingredients.Contains(MealSearch));
+                MealQuery = MealQuery.Where(x => x.Name.Contains(mealSearch) || x.Summary.Contains(mealSearch) || x.Ingredients.Contains(mealSearch));
             }
-            return View(await MealQuery.AsNoTracking().ToListAsync());
+
+            int pageSize = 3;
+            return View(await PaginatedList<Meal>.CreateAsync(MealQuery.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Meals/Details/5
@@ -54,12 +67,43 @@ namespace DualPrep.Controllers
 
             var meal = await _context.Meals
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (meal == null)
             {
                 return NotFound();
             }
 
             return View(meal);
+        }
+
+        public async Task<IActionResult> CreateFavorites(MealFavorite mealFavorite, Meal meal)
+        {
+            var currentUser = await GetCurrentUserAsync();
+            mealFavorite.MealId = meal.Id;
+            mealFavorite.ApplicationUserId = currentUser.Id;
+
+            return View(mealFavorite);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateFavorites(MealFavorite mealFavorite)
+        {
+            _context.Add(mealFavorite);
+            await _context.SaveChangesAsync();
+
+            return View(mealFavorite);
+        }
+
+        public async Task<IActionResult> Favorites()
+        {
+            var currentUser = await GetCurrentUserAsync();
+            FavoriteData vm = new FavoriteData();
+            var applicationDbContext = _context.MealFavorites
+                .Include(o => o.Meal)
+                .Where(a => a.ApplicationUserId == currentUser.Id);
+            vm.MealFavorites = applicationDbContext;
+            return View(vm);
         }
 
         // GET: Meals/Create

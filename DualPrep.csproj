@@ -5,6 +5,11 @@
     <UserSecretsId>aspnet-DualPrep-523FA54D-947F-41EA-BC75-9C5D19E55E32</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20200226032703_FavoriteMeal.cs" />
+    <Compile Remove="Migrations\20200226032703_FavoriteMeal.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.1" />

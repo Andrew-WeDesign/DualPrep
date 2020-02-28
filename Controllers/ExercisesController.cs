@@ -26,11 +26,37 @@ namespace DualPrep.Controllers
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Exercises
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    var currentUser = await GetCurrentUserAsync();
+        //    return View(await _context.Exercises.ToListAsync());
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> Index(string exerciseSearch, string currentFilter, int? pageNumber)
         {
-            var currentUser = await GetCurrentUserAsync();
-            return View(await _context.Exercises.ToListAsync());
+            if (exerciseSearch != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                exerciseSearch = currentFilter;
+            }
+
+            ViewData["GetExerciseSearch"] = exerciseSearch;
+
+            var ExerciseQuery = from x in _context.Exercises select x;
+
+            if (!string.IsNullOrEmpty(exerciseSearch))
+            {
+                ExerciseQuery = ExerciseQuery.Where(x => x.Name.Contains(exerciseSearch) || x.Summary.Contains(exerciseSearch));
+            }
+
+            int pageSize = 3;
+            return View(await PaginatedList<Exercise>.CreateAsync(ExerciseQuery.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
+
 
         // GET: Exercises/Details/5
         public async Task<IActionResult> Details(int? id)
