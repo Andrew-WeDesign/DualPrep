@@ -55,7 +55,9 @@
 
     </div>
     <div class="DP-DtSide">
-        <a asp-action="CreateFavorites">add to favorites</a>
+        <form asp-action="Details" method="post">
+            <input type="submit" value="create" class="DP-CreateSubmit"/>
+        </form>
         When features like meal/workout plans, favorites, and my meals/exercises are added they can be found here.
     </div>
 </div>
