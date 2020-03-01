@@ -73,25 +73,25 @@ namespace DualPrep.Controllers
                 return NotFound();
             }
 
-            var currentUser = await GetCurrentUserAsync();
-
             return View(meal);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Deatils(Meal meal)
+        public async Task<IActionResult> Details(Meal meal)
         {
             var currentUser = await GetCurrentUserAsync();
 
-            MealFavorite mealFavorite = new MealFavorite();
-            mealFavorite.MealId = meal.Id;
-            mealFavorite.ApplicationUserId = currentUser.Id;
+            MealFavorite mealFavorite = new MealFavorite
+            {
+                MealId = meal.Id,
+                ApplicationUserId = currentUser.Id
+            };
 
             _context.Add(mealFavorite);
             await _context.SaveChangesAsync();
 
-            return View(mealFavorite);
+            return RedirectToAction(nameof(Details));
         }
 
         public async Task<IActionResult> Favorites()

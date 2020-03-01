@@ -11,6 +11,8 @@
 
 @foreach (var item in Model.MealFavorites)
 {
-    @Html.DisplayFor(modelItem => item.Meal.Name)
+    <a asp-action="Details" asp-route-id="@item.Meal.Id">
+        <p>@Html.DisplayFor(modelItem => item.Meal.Name)</p>
+    </a>
 }
 

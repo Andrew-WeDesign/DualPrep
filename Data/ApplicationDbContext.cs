@@ -22,6 +22,7 @@ namespace DualPrep.Data
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<MealFavorite> MealFavorites { get; set; }
+        public DbSet<ExerciseFavorite> ExerciseFavorites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +30,7 @@ namespace DualPrep.Data
             modelBuilder.Entity<ApplicationUser>().ToTable("ApplicationUser");
             modelBuilder.Entity<Exercise>().ToTable("Exercise");
             modelBuilder.Entity<MealFavorite>().ToTable("MealFavorite");
+            modelBuilder.Entity<ExerciseFavorite>().ToTable("ExerciseFavorite");
             base.OnModelCreating(modelBuilder);
         }
 

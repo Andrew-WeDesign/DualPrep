@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DualPrep.Data;
 using DualPrep.Models;
+using DualPrep.Models.ExerciseViewModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace DualPrep.Controllers
@@ -74,6 +75,35 @@ namespace DualPrep.Controllers
             }
 
             return View(exercise);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Details(Exercise exercise)
+        {
+            var currentUser = await GetCurrentUserAsync();
+
+            ExerciseFavorite exerciseFavorite = new ExerciseFavorite
+            {
+                ExerciseId = exercise.Id,
+                ApplicationUserId = currentUser.Id
+            };
+
+            _context.Add(exerciseFavorite);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details));
+        }
+
+        public async Task<IActionResult> Favorites()
+        {
+            var currentUser = await GetCurrentUserAsync();
+            FavoriteData vm = new FavoriteData();
+            var applicationDbContext = _context.ExerciseFavorites
+                .Include(o => o.Exercise)
+                .Where(a => a.ApplicationUserId == currentUser.Id);
+            vm.ExerciseFavorites = applicationDbContext;
+            return View(vm);
         }
 
         // GET: Exercises/Create

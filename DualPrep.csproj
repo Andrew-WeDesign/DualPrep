@@ -8,6 +8,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200226032703_FavoriteMeal.cs" />
     <Compile Remove="Migrations\20200226032703_FavoriteMeal.Designer.cs" />
+    <Compile Remove="Migrations\20200229230505_Favoriteexercise.cs" />
+    <Compile Remove="Migrations\20200229230505_Favoriteexercise.Designer.cs" />
   </ItemGroup>
 
 

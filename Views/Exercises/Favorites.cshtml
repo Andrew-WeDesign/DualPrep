@@ -1,0 +1,17 @@
+﻿@model DualPrep.Models.ExerciseViewModels.FavoriteData
+
+@{
+    ViewData["Title"] = "Favorites";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>
+    My Favorites
+</h1>
+
+@foreach (var item in Model.ExerciseFavorites)
+{
+    <a asp-action="Details" asp-route-id="@item.Exercise.Id">
+        <p>@Html.DisplayFor(modelItem => item.Exercise.Name)</p>
+    </a>
+}
