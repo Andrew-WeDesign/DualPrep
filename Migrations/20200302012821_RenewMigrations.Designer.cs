@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DualPrep.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200217171322_MealUpdate01")]
-    partial class MealUpdate01
+    [Migration("20200302012821_RenewMigrations")]
+    partial class RenewMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -126,7 +126,27 @@ namespace DualPrep.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Exercises");
+                    b.ToTable("Exercise");
+                });
+
+            modelBuilder.Entity("DualPrep.Models.ExerciseFavorite", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.ToTable("ExerciseFavorite");
                 });
 
             modelBuilder.Entity("DualPrep.Models.Meal", b =>
@@ -164,6 +184,26 @@ namespace DualPrep.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Meal");
+                });
+
+            modelBuilder.Entity("DualPrep.Models.MealFavorite", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("MealId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("MealId");
+
+                    b.ToTable("MealFavorite");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -299,6 +339,32 @@ namespace DualPrep.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("DualPrep.Models.ExerciseFavorite", b =>
+                {
+                    b.HasOne("DualPrep.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("DualPrep.Models.Exercise", "Exercise")
+                        .WithMany()
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DualPrep.Models.MealFavorite", b =>
+                {
+                    b.HasOne("DualPrep.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("MealFavorites")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("DualPrep.Models.Meal", "Meal")
+                        .WithMany("MealFavorites")
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

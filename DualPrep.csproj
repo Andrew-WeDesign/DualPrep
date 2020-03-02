@@ -10,6 +10,10 @@
     <Compile Remove="Migrations\20200226032703_FavoriteMeal.Designer.cs" />
     <Compile Remove="Migrations\20200229230505_Favoriteexercise.cs" />
     <Compile Remove="Migrations\20200229230505_Favoriteexercise.Designer.cs" />
+    <Compile Remove="Migrations\20200302010019_FavoriteMealsFix001.cs" />
+    <Compile Remove="Migrations\20200302010019_FavoriteMealsFix001.Designer.cs" />
+    <Compile Remove="Migrations\20200302011809_RenewMigrations.cs" />
+    <Compile Remove="Migrations\20200302011809_RenewMigrations.Designer.cs" />
   </ItemGroup>
 
 

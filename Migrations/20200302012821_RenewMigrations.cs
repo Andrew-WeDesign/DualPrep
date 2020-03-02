@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DualPrep.Migrations
 {
-    public partial class ScaffoldedMealModel : Migration
+    public partial class RenewMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,6 +50,24 @@ namespace DualPrep.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Exercise",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: false),
+                    Summary = table.Column<string>(nullable: true),
+                    Equipment = table.Column<string>(nullable: true),
+                    Directions = table.Column<string>(nullable: true),
+                    Muscle = table.Column<int>(nullable: false),
+                    CreatedByUser = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Exercise", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Meal",
                 columns: table => new
                 {
@@ -59,6 +77,8 @@ namespace DualPrep.Migrations
                     Summary = table.Column<string>(nullable: true),
                     Ingredients = table.Column<string>(nullable: true),
                     Directions = table.Column<string>(nullable: true),
+                    PrepTime = table.Column<int>(nullable: false),
+                    CookTime = table.Column<int>(nullable: false),
                     Author = table.Column<string>(nullable: true),
                     CreatedByUser = table.Column<string>(nullable: true)
                 },
@@ -173,6 +193,56 @@ namespace DualPrep.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ExerciseFavorite",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    ExerciseId = table.Column<int>(nullable: false),
+                    ApplicationUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExerciseFavorite", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExerciseFavorite_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ExerciseFavorite_Exercise_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "Exercise",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MealFavorite",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    MealId = table.Column<int>(nullable: false),
+                    ApplicationUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MealFavorite", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MealFavorite_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MealFavorite_Meal_MealId",
+                        column: x => x.MealId,
+                        principalTable: "Meal",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -211,6 +281,26 @@ namespace DualPrep.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExerciseFavorite_ApplicationUserId",
+                table: "ExerciseFavorite",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExerciseFavorite_ExerciseId",
+                table: "ExerciseFavorite",
+                column: "ExerciseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MealFavorite_ApplicationUserId",
+                table: "MealFavorite",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MealFavorite_MealId",
+                table: "MealFavorite",
+                column: "MealId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -231,13 +321,22 @@ namespace DualPrep.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Meal");
+                name: "ExerciseFavorite");
+
+            migrationBuilder.DropTable(
+                name: "MealFavorite");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Exercise");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Meal");
         }
     }
 }

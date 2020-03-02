@@ -9,7 +9,7 @@ namespace DualPrep.Models
     public class ExerciseFavorite
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int ExerciseId { get; set; }
         public string ApplicationUserId { get; set; }
 

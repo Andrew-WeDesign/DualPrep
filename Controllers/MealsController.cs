@@ -84,15 +84,36 @@ namespace DualPrep.Controllers
 
             MealFavorite mealFavorite = new MealFavorite
             {
+                Id = currentUser.Id + meal.Id,
                 MealId = meal.Id,
                 ApplicationUserId = currentUser.Id
             };
-
-            _context.Add(mealFavorite);
-            await _context.SaveChangesAsync();
+            if (!MealFavoriteExists(mealFavorite.Id))
+            {
+                _context.Add(mealFavorite);
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToAction(nameof(Details));
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Details(Meal meal)
+        //{
+        //    var currentUser = await GetCurrentUserAsync();
+
+        //    MealFavorite mealFavorite = new MealFavorite
+        //    {
+        //        MealId = meal.Id,
+        //        ApplicationUserId = currentUser.Id
+        //    };
+
+        //    _context.Add(mealFavorite);
+        //    await _context.SaveChangesAsync();
+
+        //    return RedirectToAction(nameof(Details));
+        //}
 
         public async Task<IActionResult> Favorites()
         {
@@ -225,6 +246,13 @@ namespace DualPrep.Controllers
         private bool MealExists(int id)
         {
             return _context.Meals.Any(e => e.Id == id);
+        }
+
+        private bool MealFavoriteExists(string id)
+        {
+            var currentUser = GetCurrentUserAsync();
+
+            return _context.MealFavorites.Any(e => e.Id == id);
         }
     }
 }
