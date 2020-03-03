@@ -17,19 +17,8 @@
             </a>
             <form asp-action="Favorites" asp-route-id="@item.Id" method="post">
                 @*<input type="hidden" asp-route-id="MealFavorites" />*@
-                <input type="submit" value="Remove Favorite" class="btn btn-danger" />
+                <input type="submit" value="Remove Favorite" class="DP-FaveButtonR" />
             </form>
         }
     </div>
 </div>
-
-@*<h1>
-    My Favorites
-</h1>
-
-@foreach (var item in Model.ExerciseFavorites)
-{
-    <a asp-action="Details" asp-route-id="@item.Exercise.Id">
-        <p>@Html.DisplayFor(modelItem => item.Exercise.Name)</p>
-    </a>
-}*@
