@@ -361,6 +361,27 @@ pre {
     text-align: center;
 }
 
+/*--------------------------------------------------------*/
+/*Favorites PAGE CSS*/
+/*--------------------------------------------------------*/
+.DP-FavePage {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+.DP-FaveList {
+    width: 100%;
+}
+
+    .DP-FaveList a {
+        text-decoration: none;
+        color: blue;
+        font-size: 1.5em;
+    }
+
+/*large screens*/
 @media(min-width: 650px) {
     .DP-HMText {
         font-size: 30px;
@@ -374,22 +395,23 @@ pre {
     }
 }
 
+/*small screens*/
 @media(max-width: 651px){
     .DP-List{
         text-align: center;
     }
 }
 
-@media(max-width: 450px){
+/*small screens*/
+@media(max-width: 450px) {
     .DP-CreateBack {
         width: 100%;
         margin-left: 0px;
     }
 
-    .DP-CreateSubmit{
+    .DP-CreateSubmit {
         width: 100%;
         margin-bottom: 10px;
-
     }
 
     .DP-DtPage {

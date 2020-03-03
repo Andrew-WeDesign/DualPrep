@@ -10,6 +10,7 @@ using DualPrep.Models;
 using DualPrep.Models.MealViewModels;
 using Microsoft.AspNetCore.Identity;
 using System.Collections;
+using System.Net;
 
 namespace DualPrep.Controllers
 {
@@ -25,12 +26,6 @@ namespace DualPrep.Controllers
         }
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
-
-        // GET: Meals
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await _context.Meals.ToListAsync());
-        //}
 
         [HttpGet]
         public async Task<IActionResult> Index(string mealSearch, string currentFilter, int? pageNumber)
@@ -97,24 +92,6 @@ namespace DualPrep.Controllers
             return RedirectToAction(nameof(Details));
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Details(Meal meal)
-        //{
-        //    var currentUser = await GetCurrentUserAsync();
-
-        //    MealFavorite mealFavorite = new MealFavorite
-        //    {
-        //        MealId = meal.Id,
-        //        ApplicationUserId = currentUser.Id
-        //    };
-
-        //    _context.Add(mealFavorite);
-        //    await _context.SaveChangesAsync();
-
-        //    return RedirectToAction(nameof(Details));
-        //}
-
         public async Task<IActionResult> Favorites()
         {
             var currentUser = await GetCurrentUserAsync();
@@ -124,6 +101,18 @@ namespace DualPrep.Controllers
                 .Where(a => a.ApplicationUserId == currentUser.Id);
             vm.MealFavorites = applicationDbContext;
             return View(vm);
+        }
+
+        [HttpPost, ActionName("Favorites")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteFavorites(string id)
+        {
+            var mealFavorite = await _context.MealFavorites.FindAsync(id);
+
+            _context.MealFavorites.Remove(mealFavorite);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Favorites));
         }
 
         // GET: Meals/Create

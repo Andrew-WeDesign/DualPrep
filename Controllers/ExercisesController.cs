@@ -26,13 +26,6 @@ namespace DualPrep.Controllers
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
-        // GET: Exercises
-        //public async Task<IActionResult> Index()
-        //{
-        //    var currentUser = await GetCurrentUserAsync();
-        //    return View(await _context.Exercises.ToListAsync());
-        //}
-
         [HttpGet]
         public async Task<IActionResult> Index(string exerciseSearch, string currentFilter, int? pageNumber)
         {
@@ -85,12 +78,16 @@ namespace DualPrep.Controllers
 
             ExerciseFavorite exerciseFavorite = new ExerciseFavorite
             {
+                Id = currentUser.Id + exercise.Id,
                 ExerciseId = exercise.Id,
                 ApplicationUserId = currentUser.Id
             };
 
-            _context.Add(exerciseFavorite);
-            await _context.SaveChangesAsync();
+            if (!ExerciseFavoriteExists(exerciseFavorite.Id))
+            {
+                _context.Add(exerciseFavorite);
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToAction(nameof(Details));
         }
@@ -104,6 +101,18 @@ namespace DualPrep.Controllers
                 .Where(a => a.ApplicationUserId == currentUser.Id);
             vm.ExerciseFavorites = applicationDbContext;
             return View(vm);
+        }
+
+        [HttpPost, ActionName("Favorites")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteFavorites(string id)
+        {
+            var exerciseFavorite = await _context.ExerciseFavorites.FindAsync(id);
+
+            _context.ExerciseFavorites.Remove(exerciseFavorite);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Favorites));
         }
 
         // GET: Exercises/Create
@@ -228,6 +237,13 @@ namespace DualPrep.Controllers
         private bool ExerciseExists(int id)
         {
             return _context.Exercises.Any(e => e.Id == id);
+        }
+
+        private bool ExerciseFavoriteExists(string id)
+        {
+            var currentUser = GetCurrentUserAsync();
+
+            return _context.ExerciseFavorites.Any(e => e.Id == id);
         }
 
     }

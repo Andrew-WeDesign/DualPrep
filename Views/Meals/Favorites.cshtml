@@ -5,14 +5,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>
-    My Favorites
-</h1>
-
-@foreach (var item in Model.MealFavorites)
-{
-    <a asp-action="Details" asp-route-id="@item.Meal.Id">
-        <p>@Html.DisplayFor(modelItem => item.Meal.Name)</p>
-    </a>
-}
-
+<div class="DP-FavePage">
+    <h1>
+        My Favorites
+    </h1>
+    <div class="DP-FaveList">
+        @foreach (var item in Model.MealFavorites)
+        {
+            <a asp-action="Details" asp-route-id="@item.Meal.Id">
+                <p>@Html.DisplayFor(modelItem => item.Meal.Name)</p>
+            </a>
+            <form asp-action="Favorites" asp-route-id="@item.Id" method="post">
+                @*<input type="hidden" asp-route-id="MealFavorites" />*@
+                <input type="submit" value="Remove Favorite" class="btn btn-danger" />
+            </form>
+        }
+    </div>
+</div>
