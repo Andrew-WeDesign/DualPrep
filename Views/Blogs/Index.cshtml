@@ -1,0 +1,27 @@
+﻿@model IEnumerable<DualPrep.Models.Blog>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="DP-List">
+    @if (User.IsInRole("Administrator"))
+    {
+        <p>
+            <a class="DP-CreateBTN" asp-action="Create">New Blog</a>
+        </p>
+    }
+
+    @foreach (var item in Model)
+    {
+        <a asp-action="Details" asp-route-id="@item.Id"><p class="DP-ItemName DP-WordWrap">@Html.DisplayFor(modelItem => item.Title)</p></a>
+        <p class="DP-WordWrap">
+            @Html.DisplayFor(modelItem => item.Date)
+        </p>
+        <p class="DP-WordWrap">
+            <pre>@Html.DisplayFor(modelItem => item.Summary)</pre>
+        </p>
+    }
+
+</div>

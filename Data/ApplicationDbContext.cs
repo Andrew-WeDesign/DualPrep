@@ -23,6 +23,7 @@ namespace DualPrep.Data
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<MealFavorite> MealFavorites { get; set; }
         public DbSet<ExerciseFavorite> ExerciseFavorites { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,8 +32,11 @@ namespace DualPrep.Data
             modelBuilder.Entity<Exercise>().ToTable("Exercise");
             modelBuilder.Entity<MealFavorite>().ToTable("MealFavorite");
             modelBuilder.Entity<ExerciseFavorite>().ToTable("ExerciseFavorite");
+            modelBuilder.Entity<Blog>().ToTable("Blog");
             base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<DualPrep.Models.Blog> Blog { get; set; }
 
     }
 }

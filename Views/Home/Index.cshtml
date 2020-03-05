@@ -12,29 +12,58 @@
         <h2 class="DP-Intro">Make Progress, Make Yourself</h2>
         <h2 class="DP-Intro">Welcome to the beta launch!!!</h2>
         <button class="DP-HomeButton" type="button" onclick="OpenFoodMenu()">Food</button>
-        <button class="DP-HomeButton" type="button" onclick="OpenWorkoutMenu()">Workout</button>
+        <button class="DP-HomeButton" type="button" onclick="OpenWorkoutMenu()">Workouts</button>
     </div>
 </div>
 
-<div id="DP-FoodMenuPop" class="DP-HomeMenu">
+@*<div id="DP-FoodMenuPop" class="DP-HomeMenu">
     <a href="#" class="DP-BtnClose" onclick="CloseFoodMenu()">&times;</a>
     <a class="DP-HMText" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-    <a class="DP-HMText" asp-area="" asp-controller="Meals" asp-action="Index">Meal List</a>
-    <a class="DP-HMText" asp-area="" asp-controller="Meals" asp-action="Favorites">Favorite Meals</a>
-    <p class="DP-HMText">More options like favorites and entire meal plans coming soon.</p>
+    <a class="DP-HMText" asp-area="" asp-controller="Meals" asp-action="Index">Find a Meal</a>
+    <a class="DP-HMText" asp-area="" asp-controller="Meals" asp-action="Favorites">My Favorite Meals</a>
+    <p class="DP-HMText">More options like entire meal plans coming soon.</p>
     <p class="DP-HMText">Check back often for new features and updates.</p>
-</div>
+</div>*@
 
-<div id="DP-WorkoutMenuPop" class="DP-HomeMenu">
+@*<div id="DP-WorkoutMenuPop" class="DP-HomeMenu">
     <a href="#" class="DP-BtnClose" onclick="CloseWorkoutMenu()">&times;</a>
     <a class="DP-HMText" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-    <a class="DP-HMText" asp-area="" asp-controller="Exercises" asp-action="Index">Exercise List</a>
-    <a class="DP-HMText" asp-area="" asp-controller="Exercises" asp-action="Favorites">Favorite Exercises</a>
-    <p class="DP-HMText">More options like favorites and entire workout plans coming soon.</p>
+    <a class="DP-HMText" asp-area="" asp-controller="Exercises" asp-action="Index">Find an Exercise</a>
+    <a class="DP-HMText" asp-area="" asp-controller="Exercises" asp-action="Favorites">My Favorite Exercises</a>
+    <p class="DP-HMText">More options like entire workout plans coming soon.</p>
     <p class="DP-HMText">Check back often for new features and updates.</p>
+</div>*@
+
+<div class="DP-SplitAbout">
+    <div class="DP-HomeAbout">
+        <h2 class="DP-HomeAboutHeading">Who was DualPrep.com made for?</h2>
+        <p class="DP-HomePara">
+            DualPrep is a resource to assist users in making the best decisions for workouts and meals.
+            We aim to provide a good variety of information for different diets and workout plans like vegan diets or CrossFit workouts, to name a few.
+            Many people find plans that work for them but may not be as effective for others.
+            DualPrep’s mission is to create and update an extensive library for users to make an informed decision about what works for them.
+        </p>
+
+        <h2 class="DP-HomeAboutHeading">What can DualPrep.com do for me?</h2>
+        <p class="DP-HomePara">
+            While DualPrep.com is still new we strive to add more resources and information on a regular basis and in an easy to understand format. 
+            We think short and to the point is the best way to be a useful resource that you will continue using during and beyond your mission to be healthier 
+            and active. In short, we want to deliver new meals and activities to try while improving your health.
+        </p>
+
+        <h2 class="DP-HomeAboutHeading">Why use DualPrep.com?</h2>
+        <p class="DP-HomePara">
+            Exercising and healthy eating is not an easy task. 
+            While searching the internet for variety and alternatives can be time consuming (we’ve been there) DualPrep aims to provide new and interesting 
+            content for users to want to come back and see what’s new.
+        </p>
+    </div>
+    <div class="DP-HomeAboutPic1">
+
+    </div>
 </div>
 
-<script>
+@*<script>
     function OpenFoodMenu() {
         document.getElementById('DP-FoodMenuPop').style.width = '100%';
     }
@@ -58,4 +87,4 @@
         document.getElementById('DP-WorkoutMenuPop').style.width = '0';
         document.getElementById('main').style.marginLeft = '0';
     }
-</script>
+</script>*@

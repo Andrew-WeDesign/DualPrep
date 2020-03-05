@@ -4,14 +4,16 @@ using DualPrep.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DualPrep.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200303223456_Blogs")]
+    partial class Blogs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,9 +113,6 @@ namespace DualPrep.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Summary")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TLDR")
                         .HasColumnType("nvarchar(max)");

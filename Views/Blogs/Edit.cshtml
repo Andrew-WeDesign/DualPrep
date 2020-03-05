@@ -1,0 +1,48 @@
+﻿@model DualPrep.Models.Blog
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="DP-AboutCreate">Edit</h1>
+
+<h4 class="DP-AboutCreate">Meal</h4>
+<hr />
+
+<div class="DP-FormContainer">
+    <div class="DP-CreateForm">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="DP-TextDanger"></div>
+            <div class="DP-FormLine">
+                <label asp-for="Title" class="DP-CreateLabel"></label>
+                <input asp-for="Title" class="DP-CreateInput" />
+                <span asp-validation-for="Title" class="DP-TextDanger"></span>
+            </div>
+            <div class="DP-FormLine">
+                <label asp-for="Summary" class="DP-CreateLabel"></label>
+                <input asp-for="Summary" class="DP-CreateInput" />
+                <span asp-validation-for="Summary" class="DP-TextDanger"></span>
+            </div>
+            <div class="DP-FormLine">
+                <label asp-for="Body" class="DP-CreateLabel"></label>
+                <textarea asp-for="Body" class="DP-CreateInput"></textarea>
+                <span asp-validation-for="Body" class="DP-TextDanger"></span>
+            </div>
+            <div class="DP-FormLine">
+                <label asp-for="TLDR" class="DP-CreateLabel"></label>
+                <textarea asp-for="TLDR" class="DP-CreateInput"></textarea>
+                <span asp-validation-for="TLDR" class="DP-TextDanger"></span>
+            </div>
+            <div class="DP-FormLine">
+                <input type="submit" value="Save" class="DP-CreateSubmit" />
+                <a asp-action="Index" class="DP-CreateBack">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

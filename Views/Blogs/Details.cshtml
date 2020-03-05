@@ -1,0 +1,29 @@
+﻿@model DualPrep.Models.Blog
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <div>
+        <h4>
+            @Html.DisplayFor(model => model.Title)
+        </h4>
+        <h5>
+            posted on: @Html.DisplayFor(model => model.Date)
+        </h5>
+        <p>
+            @Html.DisplayFor(model => model.Body)
+        </p>
+        <p>
+            @Html.DisplayNameFor(model => model.TLDR): @Html.DisplayFor(model => model.TLDR)
+        </p>
+    </div>
+
+    @if (Model.CreatedByUser == ViewBag.UserId)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <a asp-action="Index">Back to List</a>
+    }
+</div>

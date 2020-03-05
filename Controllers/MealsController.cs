@@ -48,7 +48,7 @@ namespace DualPrep.Controllers
                 MealQuery = MealQuery.Where(x => x.Name.Contains(mealSearch) || x.Summary.Contains(mealSearch) || x.Ingredients.Contains(mealSearch));
             }
 
-            int pageSize = 3;
+            int pageSize = 10;
             return View(await PaginatedList<Meal>.CreateAsync(MealQuery.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

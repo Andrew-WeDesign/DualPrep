@@ -47,7 +47,7 @@ namespace DualPrep.Controllers
                 ExerciseQuery = ExerciseQuery.Where(x => x.Name.Contains(exerciseSearch) || x.Summary.Contains(exerciseSearch));
             }
 
-            int pageSize = 3;
+            int pageSize = 10;
             return View(await PaginatedList<Exercise>.CreateAsync(ExerciseQuery.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
