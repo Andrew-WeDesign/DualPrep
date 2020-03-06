@@ -4,16 +4,15 @@
     font-family: 'Roboto Condensed', sans-serif;
 }
 
-h1{
+h1 {
     margin: 0;
-
 }
 
 /*--------------------------------------------------------*/
 /*LAYOUT PAGE CSS*/
 /*--------------------------------------------------------*/
 
-.left-nav {
+.DP-left-nav {
     height: 100%;
     width: 0;
     position: absolute;
@@ -27,7 +26,7 @@ h1{
     transition: 0.3s;
 }
 
-    .left-nav a {
+    .DP-left-nav a {
         padding: 1em 1em 1em 2em;
         text-decoration: none;
         color: #ccc;
@@ -35,11 +34,11 @@ h1{
         transition: 0.3s;
     }
 
-        .left-nav a:hover {
+        .DP-left-nav a:hover {
             color: #fff;
         }
 
-    .left-nav .btn-close {
+    .DP-left-nav .btn-close {
         position: absolute;
         top: -1em;
         right: 0em;
@@ -47,41 +46,41 @@ h1{
         margin-left: 4em;
     }
 
-.navbar {
+.DP-navbar {
     background-color: #124cc9;
     overflow: hidden;
     height: 10%;
 }
 
-    .navbar img {
+    .DP-navbar img {
         max-height: 100%;
         max-width: 100%;
     }
 
-.navx{
+.DP-navx {
     max-height: 4em;
     max-width: 4em;
 }
 
-.open-left a {
+.DP-open-left a {
     float: left;
 }
 
-    .open-left a:hover {
+    .DP-open-left a:hover {
         background-color: #ddd;
         color: #000;
     }
 
-.open-right a {
+.DP-open-right a {
     float: right;
 }
 
-    .open-right a:hover {
+    .DP-open-right a:hover {
         background-color: #ddd;
         color: #000;
     }
 
-.right-nav {
+.DP-right-nav {
     height: 100%;
     width: 0;
     position: absolute;
@@ -95,7 +94,7 @@ h1{
     transition: 0.3s;
 }
 
-    .right-nav a {
+    .DP-right-nav a {
         padding: 1em 1em 1em 2em;
         text-decoration: none;
         color: #ccc;
@@ -103,11 +102,11 @@ h1{
         transition: 0.3s;
     }
 
-        .right-nav a:hover {
+        .DP-right-nav a:hover {
             color: #fff;
         }
 
-    .right-nav .btn-close {
+    .DP-right-nav .btn-close {
         position: absolute;
         top: -1em;
         right: 0em;
@@ -214,6 +213,9 @@ h1{
         color: #fff;
     }
 
+.DP-SplitAbout {
+    margin-bottom: 10px;
+}
 .DP-HomeAbout {
     min-height: 60vh;
     width: 90%;
@@ -236,6 +238,7 @@ h1{
     background-image: url(https://images.pexels.com/photos/1117493/pexels-photo-1117493.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
     background-position: center;
     margin: auto;
+    background-size: cover;
 }
 
 /*--------------------------------------------------------*/
