@@ -27,7 +27,7 @@ h1 {
 }
 
     .DP-left-nav a {
-        padding: 1em 1em 1em 2em;
+        padding: 1em 1em 1em 1em;
         text-decoration: none;
         color: #ccc;
         display: block;
@@ -95,7 +95,7 @@ h1 {
 }
 
     .DP-right-nav a {
-        padding: 1em 1em 1em 2em;
+        padding: 1em 1em 1em 1em;
         text-decoration: none;
         color: #ccc;
         display: block;
@@ -114,6 +114,31 @@ h1 {
         margin-left: 4em;
     }
 
+.DP-BtnATag {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: 'Roboto Condensed', sans-serif;
+    color: #ccc;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 22px;
+    transition: 0.3s;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+    .DP-BtnATag:hover {
+        color: #fff;
+    }
+
+.DP-LogoutForm {
+    padding: 1em 1em 1em 1em;
+    margin: 1em;
+    display: block;
+}
+
 /*--------------------------------------------------------*/
 /*HOME PAGE CSS*/
 /*--------------------------------------------------------*/
@@ -123,6 +148,7 @@ h1 {
     padding-left: 15px;*/
     margin-right: auto;
     margin-left: auto;
+    min-height: 100vh;
 }
 
 .DP-HomePage {
@@ -425,6 +451,10 @@ pre {
 /*large screens*/
 @media(min-width: 650px) {
     .DP-HMText {
+        font-size: 30px;
+    }
+
+    .DP-BtnATag{
         font-size: 30px;
     }
 

@@ -40,12 +40,26 @@
 
     <div id="DP-right-menu" class="DP-right-nav">
         <a href="#" class="DP-BtnClose DP-navx" onclick="CloseRightMenu()">&times;</a>
-        <a class="DP-HMText" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @User.Identity.Name!</a>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a class="DP-HMText" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @User.Identity.Name!</a>
+        }
+        else
+        {
+            <a class="DP-HMText" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            <a class="DP-HMText" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        }
         <a class="DP-HMText" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         @*<a class="DP-HMText" asp-area="" asp-controller="Meals" asp-action="Index">Meal List</a>*@
         <a href="#" class="DP-HMText" onclick="OpenFoodMenu()">Food</a>
         @*<a class="DP-HMText" asp-area="" asp-controller="Exercises" asp-action="Index">Exercise List</a>*@
         <a href="#" class="DP-HMText" onclick="OpenWorkoutMenu()">Workouts</a>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <form class="DP-LogoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="DP-BtnATag">Logout</button>
+            </form>
+        }
     </div>
 
     <div id="DP-FoodMenuPop" class="DP-HomeMenu">
