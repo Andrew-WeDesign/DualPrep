@@ -84,6 +84,13 @@ namespace DualPrep
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddAuthentication().
+                AddFacebook(options =>
+                {
+                    options.AppId = "676240123147746";
+                    options.AppSecret = "2466d8892bd91991a89cc3aa11693ef9";
+                });
+
             services.AddControllers(config =>
             {
                 // using Microsoft.AspNetCore.Mvc.Authorization;

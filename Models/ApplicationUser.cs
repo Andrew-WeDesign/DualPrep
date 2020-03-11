@@ -15,7 +15,6 @@ namespace DualPrep.Models
 
         }
 
-        [Required]
         [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
@@ -24,7 +23,6 @@ namespace DualPrep.Models
         [Display(Name = "Role")]
         public string UserRole { get; set; }
 
-        [Required]
         [Display(Name = "Last Name")]
         [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
         public string LastName { get; set; }
