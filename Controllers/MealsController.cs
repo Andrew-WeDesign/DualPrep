@@ -153,7 +153,7 @@ namespace DualPrep.Controllers
             var meal = await _context.Meals.FindAsync(id);
             var currentUser = await GetCurrentUserAsync();
 
-            if (meal.CreatedByUser != currentUser.UserName)
+            if (meal.CreatedByUser != currentUser.Id)
             {
                 return NotFound();
             }

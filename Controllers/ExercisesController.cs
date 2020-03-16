@@ -9,6 +9,8 @@ using DualPrep.Data;
 using DualPrep.Models;
 using DualPrep.Models.ExerciseViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace DualPrep.Controllers
 {
@@ -128,7 +130,7 @@ namespace DualPrep.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Summary,Equipment,Directions,Muscle")] Exercise exercise)
+        public async Task<IActionResult> Create([Bind("Id,Name,Summary,Equipment,Directions,Muscle")] Exercise exercise, IFormFile file)
         {
             var currentUser = await GetCurrentUserAsync();
 
@@ -137,9 +139,42 @@ namespace DualPrep.Controllers
                 exercise.CreatedByUser = currentUser.Id;
                 _context.Add(exercise);
                 await _context.SaveChangesAsync();
+
+                UploadFile(file, exercise.Id);
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(exercise);
+        }
+
+        public async void UploadFile(IFormFile file, int exerciseId)
+        {
+            if (file != null)
+            {
+                var fileName = file.FileName;
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/eximages", fileName);
+
+                if (System.IO.File.Exists(path)) 
+                { 
+                    //Maybe add something here like: 
+                    //file already exists, change file name and try again
+                }
+                else
+                {
+                    using (var fileStream = new FileStream(path, FileMode.CreateNew))
+                    {
+                        file.CopyTo(fileStream);
+                        var exercise = await _context.Exercises.FindAsync(exerciseId);
+
+                        exercise.ImageUrl = fileName;
+                        _context.Update(exercise);
+                    }
+
+                }
+
+                //await _context.SaveChangesAsync();
+            }
         }
 
         // GET: Exercises/Edit/5
@@ -185,7 +220,7 @@ namespace DualPrep.Controllers
             {
                 try
                 {
-                    exercise.CreatedByUser = currentUser.UserName;
+                    exercise.CreatedByUser = currentUser.Id;
                     _context.Update(exercise);
                     await _context.SaveChangesAsync();
                 }
