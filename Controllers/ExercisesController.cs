@@ -134,7 +134,7 @@ namespace DualPrep.Controllers
 
             if (ModelState.IsValid)
             {
-                exercise.CreatedByUser = currentUser.UserName;
+                exercise.CreatedByUser = currentUser.Id;
                 _context.Add(exercise);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

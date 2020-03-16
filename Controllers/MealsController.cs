@@ -134,7 +134,7 @@ namespace DualPrep.Controllers
 
             if (ModelState.IsValid)
             {
-                meal.CreatedByUser = currentUser.UserName;
+                meal.CreatedByUser = currentUser.Id;
                 _context.Add(meal);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

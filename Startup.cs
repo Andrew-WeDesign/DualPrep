@@ -84,11 +84,21 @@ namespace DualPrep
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddAuthentication().
-                AddFacebook(options =>
+            services.AddAuthentication()
+                .AddFacebook(options =>
                 {
                     options.AppId = "676240123147746";
                     options.AppSecret = "2466d8892bd91991a89cc3aa11693ef9";
+                })
+                .AddTwitter(options => 
+                {
+                    options.ConsumerKey = "zir3tzuA3saAb3cuc9rlllDv4";
+                    options.ConsumerSecret = "KufnfxjtvPej4W8IJ1mrIdWhfGMdKfAmZ1JRjsV1WkkjwIkSNC";
+                })
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "376478953328-86l8qv79duign191o7sh4jbmn9at8e5s.apps.googleusercontent.com";
+                    options.ClientSecret = "NIpVnYgG_A997cPlmqgrTdBd";
                 });
 
             services.AddControllers(config =>
