@@ -153,7 +153,7 @@ namespace DualPrep.Controllers
             if (file != null)
             {
                 var fileName = file.FileName;
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/eximages", fileName);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/eximages", Convert.ToString(exerciseId) + fileName);
 
                 if (System.IO.File.Exists(path)) 
                 { 
@@ -172,8 +172,6 @@ namespace DualPrep.Controllers
                     }
 
                 }
-
-                //await _context.SaveChangesAsync();
             }
         }
 

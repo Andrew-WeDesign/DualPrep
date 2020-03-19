@@ -18,6 +18,8 @@ namespace DualPrep.Models
         public int PrepTime { get; set; }
         public int CookTime { get; set; }
         public string Author { get; set; }        //optional place to put the author
+        public string ImageUrl { get; set; }
+
         public string CreatedByUser { get; set; }        //add user ID/string to be bound to the meal
         //add rating system either upvotes/downvotes or star ratings
 

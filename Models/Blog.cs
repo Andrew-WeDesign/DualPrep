@@ -13,6 +13,7 @@ namespace DualPrep.Models
         public string Body { get; set; }
         public string TLDR { get; set; }
         public  DateTime Date { get; set; }
+        public string ImageUrl { get; set; }
         public string CreatedByUser { get; set; }
     }
 }

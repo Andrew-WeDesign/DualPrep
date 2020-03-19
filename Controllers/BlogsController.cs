@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using DualPrep.Data;
 using DualPrep.Models;
 using Microsoft.AspNetCore.Identity;
-
+using System.IO;
+using System.Drawing;
 
 namespace DualPrep.Controllers
 {
@@ -55,7 +56,7 @@ namespace DualPrep.Controllers
         // POST: Blogs/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Blog blog)
+        public async Task<IActionResult> Create(Blog blog, IFormFile file)
         {
             var currentUser = await GetCurrentUserAsync();
 
@@ -65,9 +66,73 @@ namespace DualPrep.Controllers
                 blog.Date = DateTime.Now;
                 _context.Add(blog);
                 await _context.SaveChangesAsync();
+
+                UploadFile(file, blog.Id);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(blog);
+        }
+
+        public async void UploadFile(IFormFile file, int blogId)
+        {
+            if (file != null)
+            {
+                var fileName = file.FileName;
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\blogimages", Convert.ToString(blogId) + fileName);
+                string imgurl = "/blogimages/" + Convert.ToString(blogId) + fileName;
+                string checkresult = "";
+
+                if (System.IO.File.Exists(path))
+                {
+                    //Maybe add something here like: 
+                    //file already exists, change file name and try again
+                }
+                else
+                {
+                    CheckFile(file, ref checkresult);
+                    if (checkresult == "It is image")
+                    {
+                        using (var fileStream = new FileStream(path, FileMode.CreateNew))
+                        {
+                            file.CopyTo(fileStream);
+
+                        }
+                        var blog = await _context.Blogs.FindAsync(blogId);
+                        blog.ImageUrl = imgurl;
+                        _context.Update(blog);
+                    }
+                }
+            }
+        }
+
+        public string CheckFile(IFormFile file, ref string checkresult)
+        {
+            try
+            {
+                var isValidImage = Image.FromStream(file.OpenReadStream());
+                checkresult = "It is image";
+            }
+            catch (Exception)
+            {
+                checkresult = "It is not image";
+            }
+
+            return checkresult;
+
+            //try
+            //{
+            //    Image imgInput = Image.FromFile(file);
+            //    Graphics gInput = Graphics.FromImage(imgInput);
+            //    System.Drawing.Imaging.ImageFormat thisFormat = imgInput.RawFormat;
+            //    checkresult = "It is image";
+            //}
+            //catch (Exception)
+            //{
+            //    checkresult = "It is not image";
+            //}
+
         }
 
         // GET: Blogs/Edit/5

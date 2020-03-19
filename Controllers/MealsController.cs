@@ -11,6 +11,8 @@ using DualPrep.Models.MealViewModels;
 using Microsoft.AspNetCore.Identity;
 using System.Collections;
 using System.Net;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace DualPrep.Controllers
 {
@@ -128,7 +130,7 @@ namespace DualPrep.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Summary,Ingredients,Directions,PrepTime,CookTime,Author")] Meal meal)
+        public async Task<IActionResult> Create([Bind("Id,Name,Summary,Ingredients,Directions,PrepTime,CookTime,Author")] Meal meal, IFormFile file)
         {
             var currentUser = await GetCurrentUserAsync();
 
@@ -137,9 +139,39 @@ namespace DualPrep.Controllers
                 meal.CreatedByUser = currentUser.Id;
                 _context.Add(meal);
                 await _context.SaveChangesAsync();
+
+                UploadFile(file, meal.Id);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(meal);
+        }
+
+        public async void UploadFile(IFormFile file, int mealId)
+        {
+            if (file != null)
+            {
+                var fileName = file.FileName;
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/mealimages", Convert.ToString(mealId) + fileName);
+
+                if (System.IO.File.Exists(path))
+                {
+                    //Maybe add something here like: 
+                    //file already exists, change file name and try again
+                }
+                else
+                {
+                    using (var fileStream = new FileStream(path, FileMode.CreateNew))
+                    {
+                        file.CopyTo(fileStream);
+                        var meal = await _context.Meals.FindAsync(mealId);
+
+                        meal.ImageUrl = fileName;
+                        _context.Update(meal);
+                    }
+
+                }
+            }
         }
 
         // GET: Meals/Edit/5

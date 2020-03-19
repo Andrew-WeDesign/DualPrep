@@ -13,6 +13,8 @@
         <h5>
             posted on: @Html.DisplayFor(model => model.Date)
         </h5>
+        <img src="@Url.Content(@Model.ImageUrl)" />
+        @*<img src="~/blogimages/1002Smiley5.png" />*@
         <p>
             @Html.DisplayFor(model => model.Body)
         </p>

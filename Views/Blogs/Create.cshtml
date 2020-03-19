@@ -7,12 +7,12 @@
 
 <h1 class="DP-AboutCreate">Create</h1>
 
-<h4 class="DP-AboutCreate">Meal</h4>
-<p class="DP-AboutCreate">Use this form to add your favorite meals.</p>
+<h4 class="DP-AboutCreate">Blog</h4>
+<p class="DP-AboutCreate">Use this form to add your favorite blogs..</p>
 <hr />
 <div class="DP-FormContainer">
     <div class="DP-CreateForm">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="DP-TextDanger"></div>
             <div class="DP-FormLine">
                 <label asp-for="Title" class="DP-CreateLabel"></label>
@@ -33,6 +33,9 @@
                 <label asp-for="TLDR" class="DP-CreateLabel"></label>
                 <textarea asp-for="TLDR" class="DP-CreateInput"></textarea>
                 <span asp-validation-for="TLDR" class="DP-TextDanger"></span>
+            </div>
+            <div class="DP-FormLine">
+                <input type="file" name="file" id="file" class="DP-CreateSubmit" />
             </div>
             <div class="DP-FormLine">
                 <input type="submit" value="Create" class="DP-CreateSubmit" />
