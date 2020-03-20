@@ -51,7 +51,7 @@
 
             <a asp-action="Details" asp-route-id="@item.Id">Details</a>
 
-            @if (item.CreatedByUser == User.Identity.Name)
+            @if (item.CreatedByUser == ViewBag.UserId)
             {
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
             }

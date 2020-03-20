@@ -5,27 +5,40 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-    <div>
-        <h4>
+<div class="DP-DtPage">
+    <div class="DP-Details">
+        <h2 class="DP-DtBlogName">
             @Html.DisplayFor(model => model.Title)
-        </h4>
-        <h5>
-            posted on: @Html.DisplayFor(model => model.Date)
-        </h5>
-        <img src="@Url.Content(@Model.ImageUrl)" />
-        @*<img src="~/blogimages/1002Smiley5.png" />*@
-        <p>
+        </h2>
+        <h3 class="DP-DtBlogName">
+            posted on: @Html.DisplayFor(model => model.Date.Month)/@Html.DisplayFor(model => model.Date.Day)/@Html.DisplayFor(model => model.Date.Year)
+        </h3>
+        @if (Model.ImageUrl != null)
+        {
+            <div class="DP-DtDivImage">
+                <img src="@Url.Content(@Model.ImageUrl)" />
+            </div>
+        }
+        <p class="DP-WordWrap">
             @Html.DisplayFor(model => model.Body)
         </p>
-        <p>
+        <p class="DP-WordWrap">
             @Html.DisplayNameFor(model => model.TLDR): @Html.DisplayFor(model => model.TLDR)
         </p>
+
+        <div class="DP-ListWhiteSpace"></div>
+
+        <div>
+            @if (Model.CreatedByUser == ViewBag.UserId)
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+            }
+            <a asp-action="Index">Back to List</a>
+        </div>
     </div>
 
-    @if (Model.CreatedByUser == ViewBag.UserId)
-    {
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-        <a asp-action="Index">Back to List</a>
-    }
+    <div class="DP-DtSide">
+        <p>When features are added they can be found here.</p>
+    </div>
+
 </div>

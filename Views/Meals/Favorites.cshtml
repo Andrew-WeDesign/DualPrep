@@ -12,13 +12,21 @@
     <div class="DP-FaveList">
         @foreach (var item in Model.MealFavorites)
         {
-            <a asp-action="Details" asp-route-id="@item.Meal.Id">
-                <p>@Html.DisplayFor(modelItem => item.Meal.Name)</p>
-            </a>
-            <form asp-action="Favorites" asp-route-id="@item.Id" method="post">
-                @*<input type="hidden" asp-route-id="MealFavorites" />*@
-                <input type="submit" value="Remove Favorite" class="DP-FaveButtonR" />
-            </form>
+            <div>
+                <a asp-action="Details" asp-route-id="@item.Meal.Id">
+                    <p>@Html.DisplayFor(modelItem => item.Meal.Name)</p>
+                </a>
+            </div>
+            <div>
+                <form asp-action="Favorites" asp-route-id="@item.Id" method="post">
+                    @*<input type="hidden" asp-route-id="MealFavorites" />*@
+                    @*<input type="submit" value="Remove Favorite" class="DP-FaveButtonR" />*@
+                    <label class="DP-RemoveFaveLabel">
+                        <input type="submit" value="Remove Favorite" class="DP-FaveButtonR" />
+                        Remove Favorite
+                    </label>
+                </form>
+            </div>
         }
     </div>
 </div>

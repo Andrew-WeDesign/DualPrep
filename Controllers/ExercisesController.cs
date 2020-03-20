@@ -11,6 +11,8 @@ using DualPrep.Models.ExerciseViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using System.Drawing;
+
 
 namespace DualPrep.Controllers
 {
@@ -31,6 +33,9 @@ namespace DualPrep.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string exerciseSearch, string currentFilter, int? pageNumber)
         {
+            var currentUser = await GetCurrentUserAsync();
+            ViewBag.UserId = currentUser.Id;
+
             if (exerciseSearch != null)
             {
                 pageNumber = 1;
@@ -57,6 +62,8 @@ namespace DualPrep.Controllers
         // GET: Exercises/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var currentUser = await GetCurrentUserAsync();
+
             if (id == null)
             {
                 return NotFound();
@@ -64,10 +71,13 @@ namespace DualPrep.Controllers
 
             var exercise = await _context.Exercises
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (exercise == null)
             {
                 return NotFound();
             }
+
+            ViewBag.UserId = currentUser.Id;
 
             return View(exercise);
         }
@@ -141,6 +151,7 @@ namespace DualPrep.Controllers
                 await _context.SaveChangesAsync();
 
                 UploadFile(file, exercise.Id);
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -153,7 +164,9 @@ namespace DualPrep.Controllers
             if (file != null)
             {
                 var fileName = file.FileName;
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/eximages", Convert.ToString(exerciseId) + fileName);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\eximages", Convert.ToString(exerciseId) + fileName);
+                string imgurl = "/eximages/" + Convert.ToString(exerciseId) + fileName;
+                string checkresult = "";
 
                 if (System.IO.File.Exists(path)) 
                 { 
@@ -162,17 +175,35 @@ namespace DualPrep.Controllers
                 }
                 else
                 {
-                    using (var fileStream = new FileStream(path, FileMode.CreateNew))
+                    CheckFile(file, ref checkresult);
+                    if (checkresult == "It is image")
                     {
-                        file.CopyTo(fileStream);
-                        var exercise = await _context.Exercises.FindAsync(exerciseId);
+                        using (var fileStream = new FileStream(path, FileMode.CreateNew))
+                        {
+                            file.CopyTo(fileStream);
 
-                        exercise.ImageUrl = fileName;
+                        }
+                        var exercise = await _context.Exercises.FindAsync(exerciseId);
+                        exercise.ImageUrl = imgurl;
                         _context.Update(exercise);
                     }
-
                 }
             }
+        }
+
+        public string CheckFile(IFormFile file, ref string checkresult)
+        {
+            try
+            {
+                var isValidImage = Image.FromStream(file.OpenReadStream());
+                checkresult = "It is image";
+            }
+            catch (Exception)
+            {
+                checkresult = "It is not image";
+            }
+
+            return checkresult;
         }
 
         // GET: Exercises/Edit/5

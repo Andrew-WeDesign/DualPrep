@@ -97,8 +97,8 @@ namespace DualPrep
                 })
                 .AddGoogle(options =>
                 {
-                    options.ClientId = "376478953328-86l8qv79duign191o7sh4jbmn9at8e5s.apps.googleusercontent.com";
-                    options.ClientSecret = "NIpVnYgG_A997cPlmqgrTdBd";
+                    options.ClientId = "376478953328-gqb4ju6bopsgpmbssbvicoas53hjfsdr.apps.googleusercontent.com";
+                    options.ClientSecret = "8gZz5LZfTitPkA7KAFus9zHC";
                 });
 
             services.AddControllers(config =>

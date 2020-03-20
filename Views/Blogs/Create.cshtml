@@ -8,7 +8,7 @@
 <h1 class="DP-AboutCreate">Create</h1>
 
 <h4 class="DP-AboutCreate">Blog</h4>
-<p class="DP-AboutCreate">Use this form to add your favorite blogs..</p>
+<p class="DP-AboutCreate">Use this form to add your favorite blogs.</p>
 <hr />
 <div class="DP-FormContainer">
     <div class="DP-CreateForm">
@@ -35,7 +35,10 @@
                 <span asp-validation-for="TLDR" class="DP-TextDanger"></span>
             </div>
             <div class="DP-FormLine">
-                <input type="file" name="file" id="file" class="DP-CreateSubmit" />
+                <label class="DP-UploadFile">
+                    <input type="file" name="file" id="file" />
+                    Upload a Photo
+                </label>
             </div>
             <div class="DP-FormLine">
                 <input type="submit" value="Create" class="DP-CreateSubmit" />

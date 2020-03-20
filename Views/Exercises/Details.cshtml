@@ -13,6 +13,12 @@
         <p class="DP-WordWrap">
             @Html.DisplayFor(model => model.Summary)
         </p>
+        @if (Model.ImageUrl != null)
+        {
+            <div class="DP-DtDivImage">
+                <img src="@Url.Content(@Model.ImageUrl)" />
+            </div>
+        }
         <h4>
             Equipment needed:
         </h4>
@@ -35,19 +41,20 @@
         <div class="DP-ListWhiteSpace"></div>
 
         <div>
-            @if (Model.CreatedByUser == User.Identity.Name)
+            @if (Model.CreatedByUser == ViewBag.UserId)
             {
                 <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
             }
-
             <a asp-action="Index">Back to List</a>
         </div>
 
     </div>
+
     <div class="DP-DtSide">
         <form asp-action="Details" method="post">
             <input type="submit" value="Add to Favorites" class="DP-CreateSubmit" />
         </form>
         <p>When features like meal/workout plans, favorites, and my meals/exercises are added they can be found here.</p>
     </div>
+
 </div>

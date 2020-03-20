@@ -13,6 +13,8 @@ using System.Collections;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using System.Drawing;
+
 
 namespace DualPrep.Controllers
 {
@@ -32,6 +34,9 @@ namespace DualPrep.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string mealSearch, string currentFilter, int? pageNumber)
         {
+            var currentUser = await GetCurrentUserAsync();
+            ViewBag.UserId = currentUser.Id;
+
             if (mealSearch != null)
             {
                 pageNumber = 1;
@@ -57,6 +62,8 @@ namespace DualPrep.Controllers
         // GET: Meals/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var currentUser = await GetCurrentUserAsync();
+
             if (id == null)
             {
                 return NotFound();
@@ -69,6 +76,8 @@ namespace DualPrep.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.UserId = currentUser.Id;
 
             return View(meal);
         }
@@ -141,6 +150,7 @@ namespace DualPrep.Controllers
                 await _context.SaveChangesAsync();
 
                 UploadFile(file, meal.Id);
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -152,7 +162,9 @@ namespace DualPrep.Controllers
             if (file != null)
             {
                 var fileName = file.FileName;
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/mealimages", Convert.ToString(mealId) + fileName);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\mealimages", Convert.ToString(mealId) + fileName);
+                string imgurl = "/mealimages/" + Convert.ToString(mealId) + fileName;
+                string checkresult = "";
 
                 if (System.IO.File.Exists(path))
                 {
@@ -161,17 +173,35 @@ namespace DualPrep.Controllers
                 }
                 else
                 {
-                    using (var fileStream = new FileStream(path, FileMode.CreateNew))
+                    CheckFile(file, ref checkresult);
+                    if (checkresult == "It is image")
                     {
-                        file.CopyTo(fileStream);
-                        var meal = await _context.Meals.FindAsync(mealId);
+                        using (var fileStream = new FileStream(path, FileMode.CreateNew))
+                        {
+                            file.CopyTo(fileStream);
 
-                        meal.ImageUrl = fileName;
+                        }
+                        var meal = await _context.Meals.FindAsync(mealId);
+                        meal.ImageUrl = imgurl;
                         _context.Update(meal);
                     }
-
                 }
             }
+        }
+
+        public string CheckFile(IFormFile file, ref string checkresult)
+        {
+            try
+            {
+                var isValidImage = Image.FromStream(file.OpenReadStream());
+                checkresult = "It is image";
+            }
+            catch (Exception)
+            {
+                checkresult = "It is not image";
+            }
+
+            return checkresult;
         }
 
         // GET: Meals/Edit/5

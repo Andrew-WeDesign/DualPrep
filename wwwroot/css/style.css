@@ -374,6 +374,7 @@ pre {
     border: none;
     margin-left: auto;
     margin-right: auto;
+    cursor: pointer;
 }
 
 .DP-CreateBack {
@@ -388,6 +389,25 @@ pre {
     justify-content: center;
     color: #124cc9;
     align-items: center;
+    cursor: pointer;
+}
+
+.DP-UploadFile {
+    width: 100%;
+    height: 50px;
+    display: grid;
+    font-size: 30px;
+    color: #124cc9;
+    background: #fff;
+    border-radius: 20px;
+    border: none;
+    align-items: center;
+    cursor: pointer;
+    text-align: center;
+}
+
+input[type="file"] {
+    display: none;
 }
 
 /*--------------------------------------------------------*/
@@ -415,18 +435,41 @@ pre {
     text-align: center;
 }
 
-/*--------------------------------------------------------*/
-/*Favorites PAGE CSS*/
-/*--------------------------------------------------------*/
-.DP-FavePage {
-    width: 90%;
+.DP-DtBlogName {
+    margin: 0px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.DP-DtDivImage {
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
 }
 
+    .DP-DtDivImage img{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+/*--------------------------------------------------------*/
+/*Favorites PAGE CSS*/
+/*--------------------------------------------------------*/
+.DP-FavePage {
+width: 90%;
+margin-left: auto;
+margin-right: auto;
+margin-top: 20px;
+}
+
 .DP-FaveList {
     width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    align-items: center;
+    overflow-wrap: break-word;
 }
 
     .DP-FaveList a {
@@ -447,6 +490,28 @@ pre {
     margin-left: auto;
     margin-right: auto;
 }
+
+.DP-RemoveFaveLabel {
+    width: 100%;
+    font-size: 30px;
+    color: #fff;
+    background: #124cc9;
+    border-radius: 20px;
+    border: none;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-align: center;
+    padding: 5px;
+}
+
+    .DP-RemoveFaveLabel:hover{
+        cursor: pointer;
+    }
+
+    .DP-RemoveFaveLabel input{
+        display: none;
+    }
 
 /*large screens*/
 @media(min-width: 650px) {
@@ -497,4 +562,5 @@ pre {
     .DP-DtPage {
         display: block;
     }
+
 }

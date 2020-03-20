@@ -33,12 +33,22 @@ namespace DualPrep.Controllers
         }
 
         // GET: Blogs/Details/5
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
             var currentUser = await GetCurrentUserAsync();
 
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             var blog = await _context.Blogs
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (blog == null)
+            {
+                return NotFound();
+            }
 
             ViewBag.UserId = currentUser.Id;
 
@@ -120,19 +130,6 @@ namespace DualPrep.Controllers
             }
 
             return checkresult;
-
-            //try
-            //{
-            //    Image imgInput = Image.FromFile(file);
-            //    Graphics gInput = Graphics.FromImage(imgInput);
-            //    System.Drawing.Imaging.ImageFormat thisFormat = imgInput.RawFormat;
-            //    checkresult = "It is image";
-            //}
-            //catch (Exception)
-            //{
-            //    checkresult = "It is not image";
-            //}
-
         }
 
         // GET: Blogs/Edit/5
