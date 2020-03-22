@@ -143,7 +143,15 @@ namespace DualPrep.Controllers
             var blog = await _context.Blogs.FindAsync(id);
             var currentUser = await GetCurrentUserAsync();
 
-            if (blog.CreatedByUser != currentUser.Id)
+            if (currentUser.UserRole == "Administrator")
+            {
+
+            }
+            else if (blog.CreatedByUser == currentUser.Id)
+            {
+
+            }
+            else
             {
                 return NotFound();
             }
@@ -152,6 +160,7 @@ namespace DualPrep.Controllers
             {
                 return NotFound();
             }
+
             return View(blog);
         }
 

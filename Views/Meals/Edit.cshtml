@@ -12,7 +12,7 @@
 
 <div class="DP-FormContainer">
     <div class="DP-CreateForm">
-        <form asp-action="Create">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="DP-TextDanger"></div>
             <div class="DP-FormLine">
                 <label asp-for="Name" class="DP-CreateLabel"></label>
@@ -48,6 +48,12 @@
                 <label asp-for="Author" class="DP-CreateLabel"></label>
                 <input asp-for="Author" class="DP-CreateInput" />
                 <span asp-validation-for="Author" class="DP-TextDanger"></span>
+            </div>
+            <div class="DP-FormLine">
+                <label class="DP-UploadFile">
+                    <input type="file" name="file" id="file" />
+                    Upload a Photo
+                </label>
             </div>
             <div class="DP-FormLine">
                 <input type="submit" value="Save" class="DP-CreateSubmit" />

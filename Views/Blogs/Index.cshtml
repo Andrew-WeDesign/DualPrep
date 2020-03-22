@@ -22,6 +22,21 @@
         <p class="DP-WordWrap">
             <pre>@Html.DisplayFor(modelItem => item.Summary)</pre>
         </p>
+
+        @if (item.CreatedByUser == ViewBag.UserId)
+        {
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+        }
+        else if (User.IsInRole("Administrator"))
+        {
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+        }
+
+        @if (User.IsInRole("Administrator"))
+        {
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        }
+
     }
 
 </div>

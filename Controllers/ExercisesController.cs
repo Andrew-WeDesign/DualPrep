@@ -217,17 +217,30 @@ namespace DualPrep.Controllers
             var exercise = await _context.Exercises.FindAsync(id);
             var currentUser = await GetCurrentUserAsync();
 
+            if (currentUser.UserRole == "Administrator")
+            {
 
-            if (exercise.CreatedByUser != currentUser.UserName)
+            }
+            else if (exercise.CreatedByUser == currentUser.Id)
+            {
+
+            }
+            else
             {
                 return NotFound();
             }
+
+            //if (exercise.CreatedByUser != currentUser.UserName)
+            //{
+            //    return NotFound();
+            //}
 
 
             if (exercise == null)
             {
                 return NotFound();
             }
+
             return View(exercise);
         }
 
