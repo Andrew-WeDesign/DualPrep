@@ -10,6 +10,7 @@ using DualPrep.Models;
 using Microsoft.AspNetCore.Identity;
 using System.IO;
 using System.Drawing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DualPrep.Controllers
 {
@@ -27,15 +28,21 @@ namespace DualPrep.Controllers
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Blogs
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Blogs.ToListAsync());
         }
 
         // GET: Blogs/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
-            var currentUser = await GetCurrentUserAsync();
+            if (User.Identity.IsAuthenticated)
+            {
+                var currentUser = await GetCurrentUserAsync();
+                ViewBag.UserId = currentUser.Id;
+            }
 
             if (id == null)
             {
@@ -49,8 +56,6 @@ namespace DualPrep.Controllers
             {
                 return NotFound();
             }
-
-            ViewBag.UserId = currentUser.Id;
 
             return View(blog);
         }
@@ -77,7 +82,7 @@ namespace DualPrep.Controllers
                 _context.Add(blog);
                 await _context.SaveChangesAsync();
 
-                UploadFile(file, blog.Id);
+                UploadFile(file, blog.Id, blog);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
@@ -85,7 +90,7 @@ namespace DualPrep.Controllers
             return View(blog);
         }
 
-        public async void UploadFile(IFormFile file, int blogId)
+        public async void UploadFile(IFormFile file, int blogId, Blog blog)
         {
             if (file != null)
             {
@@ -98,6 +103,8 @@ namespace DualPrep.Controllers
                 {
                     //Maybe add something here like: 
                     //file already exists, change file name and try again
+                    blog.ImageUrl = imgurl;
+                    _context.Update(blog);
                 }
                 else
                 {
@@ -109,7 +116,7 @@ namespace DualPrep.Controllers
                             file.CopyTo(fileStream);
 
                         }
-                        var blog = await _context.Blogs.FindAsync(blogId);
+                        //var blog = await _context.Blogs.FindAsync(blogId);
                         blog.ImageUrl = imgurl;
                         _context.Update(blog);
                     }
@@ -167,7 +174,7 @@ namespace DualPrep.Controllers
         // POST: Blogs/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Blog blog)
+        public async Task<IActionResult> Edit(int id, Blog blog, IFormFile file)
         {
             if (id != blog.Id)
             {
@@ -180,9 +187,21 @@ namespace DualPrep.Controllers
             {
                 try
                 {
+
                     blog.CreatedByUser = currentUser.Id;
+                    blog.Date = DateTime.Now;
                     _context.Update(blog);
                     await _context.SaveChangesAsync();
+
+                    if (file != null)
+                    {
+                        UploadFile(file, blog.Id, blog);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    //blog.CreatedByUser = currentUser.Id;
+                    //_context.Update(blog);
+                    //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {

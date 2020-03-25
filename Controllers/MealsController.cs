@@ -14,7 +14,7 @@ using System.Net;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Drawing;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace DualPrep.Controllers
 {
@@ -31,11 +31,15 @@ namespace DualPrep.Controllers
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Index(string mealSearch, string currentFilter, int? pageNumber)
         {
-            var currentUser = await GetCurrentUserAsync();
-            ViewBag.UserId = currentUser.Id;
+            if (User.Identity.IsAuthenticated)
+            {
+                var currentUser = await GetCurrentUserAsync();
+                ViewBag.UserId = currentUser.Id;
+            }
 
             if (mealSearch != null)
             {
@@ -60,9 +64,14 @@ namespace DualPrep.Controllers
         }
 
         // GET: Meals/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
-            var currentUser = await GetCurrentUserAsync();
+            if (User.Identity.IsAuthenticated)
+            {
+                var currentUser = await GetCurrentUserAsync();
+                ViewBag.UserId = currentUser.Id;
+            }
 
             if (id == null)
             {
@@ -76,8 +85,6 @@ namespace DualPrep.Controllers
             {
                 return NotFound();
             }
-
-            ViewBag.UserId = currentUser.Id;
 
             return View(meal);
         }
@@ -149,7 +156,7 @@ namespace DualPrep.Controllers
                 _context.Add(meal);
                 await _context.SaveChangesAsync();
 
-                UploadFile(file, meal.Id);
+                UploadFile(file, meal.Id, meal);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
@@ -157,7 +164,7 @@ namespace DualPrep.Controllers
             return View(meal);
         }
 
-        public async void UploadFile(IFormFile file, int mealId)
+        public async void UploadFile(IFormFile file, int mealId, Meal meal)
         {
             if (file != null)
             {
@@ -170,6 +177,8 @@ namespace DualPrep.Controllers
                 {
                     //Maybe add something here like: 
                     //file already exists, change file name and try again
+                    meal.ImageUrl = imgurl;
+                    _context.Update(meal);
                 }
                 else
                 {
@@ -181,7 +190,7 @@ namespace DualPrep.Controllers
                             file.CopyTo(fileStream);
 
                         }
-                        var meal = await _context.Meals.FindAsync(mealId);
+                        //var meal = await _context.Meals.FindAsync(mealId);
                         meal.ImageUrl = imgurl;
                         _context.Update(meal);
                     }
@@ -240,7 +249,7 @@ namespace DualPrep.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, /*[Bind("Id,Name,Summary,Ingredients,Directions,Author")]*/ Meal meal)
+        public async Task<IActionResult> Edit(int id, Meal meal, IFormFile file)
         {
             if (id != meal.Id)
             {
@@ -253,9 +262,15 @@ namespace DualPrep.Controllers
             {
                 try
                 {
-                    meal.CreatedByUser = currentUser.UserName;
+                    meal.CreatedByUser = currentUser.Id;
                     _context.Update(meal);
                     await _context.SaveChangesAsync();
+
+                    if (file != null)
+                    {
+                        UploadFile(file, meal.Id, meal);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {

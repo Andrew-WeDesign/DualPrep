@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Drawing;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace DualPrep.Controllers
 {
@@ -29,12 +29,16 @@ namespace DualPrep.Controllers
         }
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
-
+        
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Index(string exerciseSearch, string currentFilter, int? pageNumber)
         {
-            var currentUser = await GetCurrentUserAsync();
-            ViewBag.UserId = currentUser.Id;
+            if (User.Identity.IsAuthenticated)
+            {
+                var currentUser = await GetCurrentUserAsync();
+                ViewBag.UserId = currentUser.Id;
+            }
 
             if (exerciseSearch != null)
             {
@@ -60,9 +64,14 @@ namespace DualPrep.Controllers
 
 
         // GET: Exercises/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
-            var currentUser = await GetCurrentUserAsync();
+            if (User.Identity.IsAuthenticated)
+            {
+                var currentUser = await GetCurrentUserAsync();
+                ViewBag.UserId = currentUser.Id;
+            }
 
             if (id == null)
             {
@@ -76,8 +85,6 @@ namespace DualPrep.Controllers
             {
                 return NotFound();
             }
-
-            ViewBag.UserId = currentUser.Id;
 
             return View(exercise);
         }
@@ -150,7 +157,7 @@ namespace DualPrep.Controllers
                 _context.Add(exercise);
                 await _context.SaveChangesAsync();
 
-                UploadFile(file, exercise.Id);
+                UploadFile(file, exercise.Id, exercise);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
@@ -159,7 +166,7 @@ namespace DualPrep.Controllers
             return View(exercise);
         }
 
-        public async void UploadFile(IFormFile file, int exerciseId)
+        public async void UploadFile(IFormFile file, int exerciseId, Exercise exercise)
         {
             if (file != null)
             {
@@ -169,9 +176,11 @@ namespace DualPrep.Controllers
                 string checkresult = "";
 
                 if (System.IO.File.Exists(path)) 
-                { 
+                {
                     //Maybe add something here like: 
                     //file already exists, change file name and try again
+                    exercise.ImageUrl = imgurl;
+                    _context.Update(exercise);
                 }
                 else
                 {
@@ -183,7 +192,7 @@ namespace DualPrep.Controllers
                             file.CopyTo(fileStream);
 
                         }
-                        var exercise = await _context.Exercises.FindAsync(exerciseId);
+                        //var exercise = await _context.Exercises.FindAsync(exerciseId);
                         exercise.ImageUrl = imgurl;
                         _context.Update(exercise);
                     }
@@ -230,12 +239,6 @@ namespace DualPrep.Controllers
                 return NotFound();
             }
 
-            //if (exercise.CreatedByUser != currentUser.UserName)
-            //{
-            //    return NotFound();
-            //}
-
-
             if (exercise == null)
             {
                 return NotFound();
@@ -249,7 +252,7 @@ namespace DualPrep.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, /*[Bind(include: "Id,Name,Summary,Equipment,Directions,Muscle")]*/ Exercise exercise)
+        public async Task<IActionResult> Edit(int id, Exercise exercise, IFormFile file)
         {
             if (id != exercise.Id)
             {
@@ -262,9 +265,16 @@ namespace DualPrep.Controllers
             {
                 try
                 {
+
                     exercise.CreatedByUser = currentUser.Id;
                     _context.Update(exercise);
                     await _context.SaveChangesAsync();
+
+                    if (file != null)
+                    {
+                        UploadFile(file, exercise.Id, exercise);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
